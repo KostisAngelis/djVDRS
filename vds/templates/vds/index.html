@@ -1,0 +1,34 @@
+{% extends "vds/base.html" %}
+
+{% block title %}The Project Index{% endblock %}
+
+{% block content %}
+
+<h2>Latest Projects</h2>
+<ul>
+    {% for p in latest_project_list %}
+        <li><a href="{% url 'vds:project_details' p.id %}">
+        {{ p.wa_number}} {{ p.title }}</a></li>
+    {% empty %}
+      <p>No projects are available.</p>
+    {% endfor %}
+</ul>
+<h2>Recent Transmittals</h2>
+<ul>
+    {% for t in recent_transmittals %}
+        <li><a href="{% url 'vds:transmittal_details' t.id %}">
+        {{ t }}</a></li>
+    {% empty %}
+      <p>No projects are available.</p>
+    {% endfor %}
+</ul>
+
+  Hello, world. You're at the WA index.<BR>
+    When you get here, you will be able to choose a WA to make active.(*) When a WA is
+    chosen, you will see a header with the main project information.
+    You will also see a list of the recent transmittals.<BR>
+    It will be possible to enter the VDS of the selected project or jump to a
+    particular transmittal.<BR>
+    You will also get a button to create a new project.<BR>
+    * For now, project selection will be through the URL only.
+{% endblock content %}

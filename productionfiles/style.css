@@ -1,0 +1,17 @@
+  @page {
+    size: A4; 
+    margin: 0mm;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    color: darkblue;
+    background-color: lightgrey;
+    font-size: 12pt;
+  }
+
+  sidebar {
+    color: black;
+    background-color: lightcyan;
+  }

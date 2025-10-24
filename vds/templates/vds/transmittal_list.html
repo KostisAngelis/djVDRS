@@ -1,0 +1,18 @@
+{% extends "vds/base.html" %}
+
+{% block title %}Project Transmittal List{% endblock %}
+
+{% block content %}
+<H1>Transmittal List for {{project.wa_number}}</H1>
+{% comment %}
+{% with ' '|center:5 as range %}
+{% for _ in range %}
+    {{ forloop.counter }}
+{% endfor %}
+{% endwith %}
+{% endcomment %}
+{% for transmittal in project.transmittals.all %}
+    <li><a href="{% url 'vds:transmittal_details' transmittal.id %}">{{ transmittal.number }}</a></li>
+{% endfor %}
+
+{% endblock content %}

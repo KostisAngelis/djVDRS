@@ -1,0 +1,61 @@
+{% extends "vds/base.html" %}
+
+{% block title %}Full Transmittal Details{% endblock %}
+
+{% block content %}
+<h1>Transmittal {{ transmittal.number }} ({{ transmittal.date_sent }})</h1>
+
+<section>
+  <h2>Details</h2>
+  <dl>
+    <dt>Project</dt><dd>{{ transmittal.project.wa_number }} — {{ transmittal.project.title }}</dd>
+    <dt>Number</dt><dd>{{ transmittal.number }}</dd>
+    <dt>Source</dt><dd>{{ transmittal.source }}</dd>
+  <dt>Date sent</dt><dd>{{ transmittal.date_sent }}</dd>
+    <dt>Notes</dt><dd>{{ transmittal.notes }}</dd>
+  </dl>
+</section>
+
+<section>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 0.4rem; text-align: center; }
+    th { background: #f5f5f5; }
+  </style>
+  <h2>Documents</h2>
+  {% if revisions %}
+    <table>
+      <thead>
+        <tr>
+          <th>Document</th>
+          <th>Revision</th>
+          <th>Date</th>
+          <th>Purpose</th>
+          <th>Prepared by</th>
+          <th>Reviewed by</th>
+          <th>Approved by</th>
+          <th>Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in revisions %}
+        <tr text-align: middle;>
+          <td>{{ r.document.document_number}} - {{r.document.stub}}</td>
+          <td>{{ r.revision_number }}</td>
+          <td>{{ r.date}}</td>
+          <td>{{ r.purpose }}</td>
+          <td>{{ r.prepared_by }}</td>
+          <td>{{ r.reviewed_by }}</td>
+          <td>{{ r.approved_by }}</td>
+          <td>{{ r.notes }}</td>
+          <td><a href="{% url 'vds:revision_edit' r.id %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No revisions attached to this transmittal.</p>
+  {% endif %}
+</section>
+{% endblock content %}

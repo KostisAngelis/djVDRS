@@ -1,0 +1,19 @@
+{% extends "vds/base.html" %}
+
+{% block title %}Some Project Details{% endblock %}
+
+{% block content %}
+<h2>Project Details</h2>
+<ul>
+    {{project.id}}
+</ul>
+<h2>Actions</h2>
+<ul>
+    <li><a href="{% url 'vds:transmittal_new' project.id %}">Add new transmittal</a></li>
+    <li><a href="{% url 'vds:transmittal_list' project.id %}">View all transmittals for this project</a></li>
+    <li><a href="{% url 'vds:document_list' project.id%}">View document list</a></li>
+</ul>
+
+
+  Hello, world. You're at the Project details page for project {{project.id}}.
+{% endblock content %}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>New Transmittal</title>
+    <style>
+        .controls { margin: 1rem 0; }
+        .controls button, .controls input[type=submit] { margin-right: 0.5rem; }
+        table { border-collapse: collapse; width: 100%; }
+        table th, table td { border: 1px solid #ccc; padding: 0.25rem 0.5rem; }
+        fieldset { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<a href="{% url 'vds:transmittal_list' project.id %}">View all transmittals for this project</a>
+<h1>New Transmittal</h1>
+
+{# Main transmittal form #}
+<form id="transmittal-form" action="{% url 'vds:transmittal_add' %}" method="post">
+    {% csrf_token %}
+
+    <div class="controls top-controls">
+        <button type="button" id="discard-top">Discard</button>
+        <input type="submit" value="Save Transmittal">
+    </div>
+
+    <fieldset>
+        <legend>Transmittal details</legend>
+
+        {# Project selection / display #}
+        <div>
+            <label>Project: {{ project.id }}
+            </label>
+                <strong>{{ project.wa_number }} — {{ project.title }}</strong>
+        </div>
+
+        <div>
+            <label>Date sent:
+                <input type="date" name="date_sent" value="{{transmittal.date_sent }}">
+            </label>
+        </div>
+
+        <div>
+            <label>Source:
+                <input type="text" name="source" value="{{transmittal.source}} | Client | Supplier" maxlength="30">
+            </label>
+        </div>
+
+        <div>
+            <label>Number:
+                <input type="text" name="number" value="{{ transmittal.number }}" maxlength="50">
+            </label>
+        </div>
+
+        <div>
+            <label>Notes:<br>
+                <textarea name="notes" rows="3" cols="60"></textarea>
+            </label>
+        </div>
+
+    </fieldset>
+
+    <div class="controls bottom-controls">
+        <button type="button" id="discard-bottom">Discard</button>
+        <input type="submit" value="Save Transmittal">
+    </div>
+
+</form>
+
+{# Separate form for deleting the transmittal. Uses POST to follow safe HTTP semantics. #}
+<form id="discard-form" action="{% url 'vds:transmittal_delete' transmittal.id %}" method="post" style="display:none;">
+    {% csrf_token %}
+</form>
+
+<script>
+    function confirmAndDiscard(){
+        if(!confirm('Are you sure you want to discard (delete) this transmittal? This action cannot be undone.')){
+            return;
+        }
+        // submit the hidden discard form
+        document.getElementById('discard-form').submit();
+    }
+
+    document.getElementById('discard-top').addEventListener('click', confirmAndDiscard);
+    document.getElementById('discard-bottom').addEventListener('click', confirmAndDiscard);
+</script>
+
+
+</body>
+</html>
