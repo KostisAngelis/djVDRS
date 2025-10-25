@@ -178,6 +178,9 @@ class Revision(models.Model):
           newly created revision.
 
         Returns the created Revision instance.
+
+        NOTE: The only way to add revisions are as part of creating
+        a new transmittal!!
         """
         # Fetch related objects (let exceptions bubble as appropriate)
         transmittal = Transmittal.objects.get(pk=transmittal_id)

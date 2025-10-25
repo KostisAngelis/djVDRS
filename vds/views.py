@@ -64,9 +64,18 @@ def document_list(request, project_id):
             # Delete documents and cascade revisions
             Document.objects.filter(pk__in=ids, project=project).delete()
             return HttpResponseRedirect(reverse('vds:document_list', args=(project_id,)))
-        if action in ('replace', 'issue') and ids:
+        if action in ('replace') and ids:
             # Redirect to first selected document's details as a placeholder
             return HttpResponseRedirect(reverse('vds:document_details', args=(ids[0],)))
+        if action in ('issue') and ids:
+            transmittal = project.create_transmittal()
+            for doc_id in ids:
+                # create a new revision for this document with the new transmittal
+                Revision.revision_new(transmittal.id, doc_id)
+            # Redirect transmittal details
+            # load related revisions ordered by document number (smallest first)
+            revisions = transmittal.revisions.order_by('document')
+            return render(request, "vds/transmittal_details.html", {"transmittal": transmittal, "revisions": revisions})
         # Unknown/no-op -> reload
         return HttpResponseRedirect(reverse('vds:document_list', args=(project_id,)))
 
@@ -104,7 +113,7 @@ def transmittal_list(request, project_id):
 def transmittal_details(request, transmittal_id):
     transmittal = get_object_or_404(Transmittal, pk=transmittal_id)
     # load related revisions ordered by document number (smallest first)
-    revisions = transmittal.revisions.documents.order_by('document_number')
+    revisions = transmittal.revisions.order_by('document')
     return render(request, "vds/transmittal_details.html", {"transmittal": transmittal, "revisions": revisions})
 
 def transmittal_new(request, project_id):
