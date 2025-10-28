@@ -14,6 +14,8 @@
 </head>
 <body>
   <h1>Project {{ project.wa_number }} — {{ project.title }}</h1>
+  <a href="{% url 'uploader:export_by_project' project.id %}">
+    Export Documents CSV</a>
 
   <form id="documents-form" method="post" action="">
     {% csrf_token %}

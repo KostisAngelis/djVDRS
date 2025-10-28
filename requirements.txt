@@ -1,5 +1,8 @@
 asgiref==3.10.0
+diff-match-patch==20241021
 Django==5.2.7
+django-import-export==4.3.12
 psycopg2-binary==2.9.11
 sqlparse==0.5.3
+tablib==3.9.0
 whitenoise==6.11.0

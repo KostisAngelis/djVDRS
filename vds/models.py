@@ -214,7 +214,8 @@ class Revision(models.Model):
         # Update the Document to reflect the new latest revision and issue date
         document.revision_number = new_label
         document.latest_issue = today
-        document.save(update_fields=['revision_number', 'latest_issue'])
+        document.first_issue = document.first_issue or today
+        document.save(update_fields=['revision_number', 'latest_issue', 'first_issue'])
 
         return new_rev
 

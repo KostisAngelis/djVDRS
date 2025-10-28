@@ -1,16 +1,34 @@
-<div style="padding:40px;margin:40px;border:1px solid #ccc">
-    <h1>VDS Skeleton File Upload</h1>
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Submit</button>
-    </form><hr>
+<!-- uploader/templates/uploader/upload_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload CSV</title>
+</head>
+<body>
+  <h1>Upload CSV for Documents</h1>
+
+  {% if messages %}
     <ul>
-    {% for document in documents %}
-        <li>
-            <a href="{{ document.upload_file.url }}">{{ document.upload_file.name }}</a>
-            <small>({{ document.upload_file.size|filesizeformat }}) - {{document.upload_date}}</small>
-        </li>
-    {% endfor %}
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
     </ul>
-</div>
+  {% endif %}
+    <strong>Note:</strong> The CSV file must have the correct headers
+    matching the Document model fields. Refer to the export CSV for the
+    correct format.<BR>
+    The CSV file will update existing documents based on their document number.
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  {% if errors %}
+    <h3>Import errors</h3>
+    <pre>{{ errors|safe }}</pre>
+  {% endif %}
+</body>
+</html>

@@ -5,9 +5,14 @@
 {% block content %}
 <h2>Project Details</h2>
 <ul>
-    {{project.id}}
+    <li>WA Number: {{ project.wa_number }}</li>
+    <li>Title: {{ project.title }}</li>
+    <li>Stub: {{project.stub}} - DrM Reference: {{ project.drm_ref_number }}</li>
+    <li>Location: {{project.location}}, {{project.country}}</li>
+    <li>Client Project Number: {{ project.client_number }}</li>
+    <li>Client Project Title: {{ project.client_title }}</li>
 </ul>
-<h2>Actions</h2>
+<HR>
 <ul>
     <li><a href="{% url 'vds:transmittal_new' project.id %}">Add new transmittal</a></li>
     <li><a href="{% url 'vds:transmittal_list' project.id %}">View all transmittals for this project</a></li>
@@ -15,5 +20,5 @@
 </ul>
 
 
-  Hello, world. You're at the Project details page for project {{project.id}}.
+  <div style="text-align:right;font-size: smaller;" font:smaller">{{project.id}}</div>
 {% endblock content %}

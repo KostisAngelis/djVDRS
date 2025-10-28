@@ -1,0 +1,13 @@
+# All of these datasets are "equivalent" for the import of a document using the django-import-export package.
+# Also refer to:
+# https://django-import-export.readthedocs.io/en/latest/getting_started.html#importing-data
+
+dataset = tablib.Dataset([101,2, 'Document List', 'Active', 'VDRS', 'DC', '53945_46-A101','','','','','','','','',0,0,0], headers=['id','project', 'title', 'vds_status', 'stub', 'discipline', 'document_number','client_number', 'supplier_number', 'revision_number', 'required_by', 'first_issue', 'latest_issue', 'next_due', 'notes', 'penalty', 'milestone', 'priority',])
+
+dataset = tablib.Dataset([2, 'Document List', 'Active', 'VDRS', 'DC', '53945_46-A101','','','','','','','','',0,0,0], headers=['project', 'title', 'vds_status', 'stub', 'discipline', 'document_number','client_number', 'supplier_number', 'revision_number', 'required_by', 'first_issue', 'latest_issue', 'next_due', 'notes', 'penalty', 'milestone', 'priority',])
+
+
+dataset = tablib.Dataset([2, 'Document List', 'Active', 'VDRS', 'DC', '53945_46-A101','','','','','','','',], headers=['project', 'title', 'vds_status', 'stub', 'discipline', 'document_number','client_number', 'supplier_number', 'revision_number', 'required_by', 'first_issue', 'latest_issue', 'next_due', ])
+
+
+dataset = tablib.Dataset([2, 'Document List', 'Active', 'VDRS', 'DC', '53945_46-A101',], headers=['project', 'title', 'vds_status', 'stub', 'discipline', 'document_number', ])
