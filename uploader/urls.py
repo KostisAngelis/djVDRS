@@ -5,6 +5,7 @@ from . import views
 
 app_name = 'uploader'
 urlpatterns = [
-    path('', views.upload_csv, name='upload_csv'),
-    path('export/<int:project_id>/', views.export_documents_by_project, name='export_by_project'),
+    path('project/<int:project_id>/export/', views.export_project_json, name='export_project_json'),
+    path('document/import_list/', views.upload_csv, name='upload_csv'),
+    path('document/<int:project_id>/export_list/', views.export_documents_by_project, name='export_by_project'),
     ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

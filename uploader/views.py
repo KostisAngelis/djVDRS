@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 # from django.core.files.storage import default_storage
 from .forms import UploadCSVForm
-from vds.models import Document
-from .admin import DocumentResource
+from vds.models import Document, Project
+from .admin import DocumentResource, ProjectResource
 from tablib import Dataset  # used by django-import-export
 
 def export_documents_by_project(request, project_id):
@@ -50,3 +50,13 @@ def upload_csv(request):
         form = UploadCSVForm()
 
     return render(request, 'uploader/upload_form.html', {'form': form})
+
+
+def export_project_json(request, project_id):
+    resource = ProjectResource()
+    queryset = Project.objects.filter(id=project_id)
+    dataset = resource.export(queryset)
+
+    response = HttpResponse(dataset.json, content_type='text/json')
+    response['Content-Disposition'] = f'attachment; filename="project.json"'
+    return response

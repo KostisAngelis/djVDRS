@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export import resources
 
-from vds.models import Document
+from vds.models import Document, Project
 
 # Register your models here.
 class DocumentResource(resources.ModelResource):
@@ -20,3 +20,9 @@ class DocumentResource(resources.ModelResource):
             'next_due', 'notes', 'penalty', 'milestone', 'priority',
         )
         '''
+
+class ProjectResource(resources.ModelResource):
+    class Meta:
+        model = Project
+        exclude = ('id',)
+        import_id_fields = ('wa_number',)
