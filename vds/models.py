@@ -69,6 +69,44 @@ class Project(models.Model):
         return self.transmittals.create(number=new_number, source=source, date_sent=today)
 
 
+    def init_transmittal(self, source: str | None = None):
+        """Set up values towards a new Transmittal for this Project.
+
+        - Syntax is similar to create_transmittal(), but does not save the
+          Transmittal to the database.
+        - I shall need to refactor create_transmittal() to use this method.
+        """
+
+        # determine source if not provided
+        if source is None:
+            first = self.transmittals.order_by('date_sent', 'id').first()
+            source = first.source if first else 'HOUSE'
+
+        # find the most recent transmittal with this source
+        latest = self.transmittals.filter(source=source).order_by('-date_sent', '-id').first()
+        if latest is not None:
+            num = latest.number or ''
+            # find the last numeric group and any trailing non-digit suffix
+            m = re.search(r'^(.*?)(\d+)(\D*)$', num)
+            if m:
+                prefix, digits, suffix = m.group(1), m.group(2), m.group(3)
+                new_digits = _increment_numeric(digits)
+                new_number = f"{prefix}{new_digits}{suffix}"
+            else:
+                # no numeric group -> append '-001'
+                new_number = f"{num}-001" if num else 'TR-001'
+        else:
+            new_number = 'TR-001'
+
+        # return the info to init Transmittal; date_sent set to today
+        today = datetime.date.today()
+        info_init = {
+            'project': self.id,
+            'number': new_number,
+            'source': source,
+            'date_sent': today,}
+        return info_init
+
 class Document(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='documents')
     title = models.CharField("Document Title", max_length=255)
